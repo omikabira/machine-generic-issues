@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import {connect} from 'react-redux';
 import "./Machine.css";
 import Table from "../table/Table";
 
-export default class Machine extends Component {
+ class Machine extends Component {
   constructor(props) {
     super(props);
 
@@ -22,56 +23,8 @@ export default class Machine extends Component {
       machine: "",
       showTable: false,
       currentIssue: {},
-      issues: [
-        {
-          id: "M1",
-          date: "20/05/2020",
-          time: "12am",
-          ObsBy: "Omi",
-          description: "Leakage",
-          priority: "medium",
-          shift: 1,
-          issueOwner: "Shubham",
-          currentStatus: "No Electricity",
-          resolution: "Start Generator"
-        },
-        {
-          id: "M2",
-          date: "15/03/2020",
-          time: "10am",
-          ObsBy: "Neha",
-          description: "Shortage",
-          priority: "high",
-          shift: 1,
-          issueOwner: "Pankaj",
-          currentStatus: "Machine Stopped",
-          resolution: "Increase Inventory"
-        },
-        {
-          id: "M3",
-          date: "14/05/2020",
-          time: "09am",
-          ObsBy: "Shivani",
-          description: "Shortage",
-          priority: "low",
-          shift: 1,
-          issueOwner: "Pankaj",
-          currentStatus: "Machine Stopped",
-          resolution: "Increase Inventory"
-        },
-        {
-          id: "M4",
-          date: "25/10/2020",
-          time: "11am",
-          ObsBy: "Rahul",
-          description: "Shortage",
-          priority: "low",
-          shift: 1,
-          issueOwner: "Pankaj",
-          currentStatus: "Machine Stopped",
-          resolution: "Increase Inventory"
-        }
-      ]
+      issues:this.props.issues,
+      
     };
   }
 
@@ -111,9 +64,13 @@ export default class Machine extends Component {
     if (this.state.loggedIn === false) {
       return <Redirect to="/login" />;
     }
+    // console.log(this.props)
     return (
+
       <div className="container mt-4">
-        <div className="row"></div>
+        <div className="row">
+          {this.props.myName}
+        </div>
 
         <div className="row">
           <div className="col-12">
@@ -157,3 +114,11 @@ export default class Machine extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    issues: state.issues
+  }
+}
+
+export default connect(mapStateToProps)(Machine);
